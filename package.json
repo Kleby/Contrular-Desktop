@@ -1,0 +1,45 @@
+{
+  "name": "constrular_levar_receber",
+  "version": "1.0.0",
+  "description": "Aplicação Desktop para a loja da constrular que o controle de vendas",
+  "license": "ISC",
+  "author": "João Kleby Barros Veiga",
+  "type": "commonjs",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.4",
+    "electron": "20.0.3",
+    "mssql": "9.1.1"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^13.0.1",
+    "electron-builder": "^24.0.0",
+    "webpack": "^5.105.0",
+    "webpack-cli": "^6.0.1"
+  },
+  "build": {
+    "appId": "com.constrular.levar-receber",
+    "productName": "Constrular Controle",
+    "asar": true,
+    "compression": "maximum",
+    "files": [
+      "electron/**/*",
+      "assets/**/*",
+      "package.json",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true
+    }
+  }
+}
