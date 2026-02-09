@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { app } = require("electron");
 const path = require("node:path");
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 const { healthCheck } = require("../backend/db/healthCheck.js");

@@ -25,7 +25,7 @@ class WindowManager extends EventEmitter {
       this.emit("window:focused", key);
     });
 
-    newWindow.in('blur', ()=>{
+    newWindow.on('blur', ()=>{
         this.emit("window:blurred", key);
     })
 
