@@ -1,14 +1,16 @@
-const { app, BrowserWindow } = require("electron");
-const path = require("node:path");
-require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
+const { app } = require("electron");
+
 const { healthCheck } = require("../backend/db/healthCheck.js");
-const { createWindow } = require("./window/createWindow");
-const { eWindowConfigs } = require("./configs/window.config.js");
+const WindowManager = require("../electron/window/WindowManager.class.js");
+const CreateWindow = require("../electron/window/CreateWindow.class.js");
+const registerIpc = require("./ipc/index");
 
-const regiterIpc = require("./ipc/index");
-
-let mainWindow;
-const menuEnabled = null;
+let win;
+const windowManager = new WindowManager();
+const windowFactories = {
+  login: ()=> CreateWindow.create(640, 480, "Página de Login", "login.html"),
+  dashboard: ()=>  CreateWindow.create(640, 480, "Página de Login", "dashboard.html")
+}
 
 async function handleOnWindow() {
   const conn = await healthCheck();
@@ -17,19 +19,15 @@ async function handleOnWindow() {
     app.quit();
     return;
   }
-
-  mainWindow = createWindow();
-  eWindowConfigs(mainWindow, { menuEnabled });
-  regiterIpc(mainWindow);
+  win = windowFactories.login
+  registerIpc({windowKey: "login", win, windowManager});
+  windowManager.create("login", win)
   handleAppEvents();
 }
 
 function handleAppEvents() {
   app.on("window-all-closed", () => {
     if (process.platform !== "darwin") app.quit();
-  });
-  app.on("activate", () => {
-    if (mainWindow === null) mainWindow = createWindow();
   });
 }
 

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" href="../css/main.css"> -->
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/login.css" />
+  </head>
+  <body>
+    <main class="main-container">
+      <div class="main-content">
+        <div class="login-brand">
+          <div class="brand-image">
+            <h3 style="color: var(--color-white-f);">Levar e Receber</h3>
+            <!-- <img src="../src/images/svg/store.svg" alt="" srcset=""> -->
+          </div>
+          <h2 class="main-title">Login</h2>
+        </div>
+        <i class="line-h"></i>
+        <div class="form-group">
+          <label for="username" class="form-label">Usuário:</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            class="form-control"
+          />
+          <div class="invalid">
+            <small class="text-danger hidden"> Usuário é obrigatório! </small>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password" class="form-label">Senha:</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control"
+          />
+          <div class="invalid">
+            <small class="text-danger hidden"> Senha é obrigatório! </small>
+          </div>
+        </div>
+        <i class="line-h line-last"></i>
+
+        <div class="login-actions__container">
+          <button id="btn-sign" class="btn btn-success">
+              <span class="btn-descripion">Entrar</span>
+            <img src="../src/images/svg/login.svg" alt="login" srcset="../src/images/icons/login.png">
+          </button>
+          <!-- <button id="btn-register" class="btn btn-info">
+            <img src="../src/images/svg/person_add.svg" style="color: black;" alt="Cadastrar" srcset="../src/images/icons/person_add.png">
+            <span class="btn-descripion">Cadastrar</span>
+          </button> -->
+        </div>
+      </div>
+    </main>
+    <script src="../js/login.js"></script>
+  </body>
+</html>

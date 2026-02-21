@@ -4,5 +4,5 @@ dist
 .vscode
 /out
 /dist
-teste-db.js
+test-*.js
 querys.sql

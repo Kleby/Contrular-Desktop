@@ -21,6 +21,12 @@ contextBridge.exposeInMainWorld("app", {
     startLevarReceberStream: (orderBy, direction) => ipcRenderer.invoke("levar-receber:listar-stream", orderBy, direction),
     onLevarReceberChunk: (cb) => ipcRenderer.on("levar-receber:chunk", (_, chunk) => cb(chunk)),
     onLevarReceberStreamEnd: (cb) => ipcRenderer.on("levar-receber:end", cb),
-    onLevarReceberStreamError: (cb) => ipcRenderer.on("levar-receber:error", (_, err) => cb(err))
+    onLevarReceberStreamError: (cb) => ipcRenderer.on("levar-receber:error", (_, err) => cb(err)),
+
+    login: (data) => ipcRenderer.invoke("login:submit", data),
+    credentialsInvalid: () => ipcRenderer.invoke("login:invalid"),
+    quit: () => ipcRenderer.send("app:quit"),
+    linkRegister: ()=> ipcRenderer.invoke("login:linkRegister"),
+    register:(data) => ipcRenderer.invoke("register:submit")
 });
 

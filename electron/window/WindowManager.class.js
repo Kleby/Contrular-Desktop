@@ -1,12 +1,12 @@
 const { EventEmitter } = require("node:events");
 
-class WindowManager extends EventEmitter {
+module.exports = class WindowManager extends EventEmitter {
   constructor() {
     super();
     this.windows = new Map();
   }
 
-  create(key, factory) {
+  create(key, factory) {    
     if (this.windows.has(key)) {
       const win = this.windows.get(key);
       if (!win.isDestroyed()) {
@@ -16,24 +16,24 @@ class WindowManager extends EventEmitter {
       }
     }
 
-    const newWindow = factory();
-    this.windows.set(key, newWindow);
+    const win = factory();
+    this.windows.set(key, win);
 
-    this.emit("window:created", key, newWindow);
+    this.emit("window:created", key, win);
 
-    newWindow.on("focus", () => {
+    win.on("focus", () => {
       this.emit("window:focused", key);
     });
 
-    newWindow.in('blur', ()=>{
+    win.on('blur', ()=>{
         this.emit("window:blurred", key);
     })
 
-    newWindow.on("closed", () => {
+    win.on("closed", () => {
       this.windows.delete(key);
       this.emit("window:closed", key);
     });
-     return newWindow;
+     return win;
   }
 
   get(key){

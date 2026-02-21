@@ -1,0 +1,155 @@
+@font-face {
+  font-family: "inter-black";
+  src: url("../src/fonts/inter/Inter_18pt-Black.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "inter-bold";
+  src: url("../src/fonts/inter/Inter_18pt-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "inter-bolder";
+  src: url("../src/fonts/inter/Inter_18pt-ExtraBold.ttf") format("truetype");
+  font-weight: bolder;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "inter-medium";
+  src: url("../src/fonts/inter/Inter_18pt-Medium.ttf") format("truetype");
+  font-weight: medium;
+  font-style: medium;
+}
+
+@font-face {
+  font-family: "inter-light";
+  src: url("../src/fonts/inter/Inter_18pt-Light.ttf") format("truetype");
+  font-weight: lighter;
+  font-style: normal;
+}
+@font-face {
+  font-family: "roboto-black";
+  src: url("../src/fonts/roboto/RobotoCondensed-Black.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "roboto-bold";
+  src: url("../src/fonts/roboto/RobotoCondensed-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "roboto-bolder";
+  src: url("../src/fonts/roboto/RobotoCondensed-ExtraBold.ttf")
+    format("truetype");
+  font-weight: bolder;
+  font-style: normal;
+}
+@font-face {
+  font-family: "roboto-medium";
+  src: url("../src/fonts/roboto/RobotoCondensed-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "roboto-light";
+  src: url("../src/fonts/roboto/RobotoCondensed-Light.ttf") format("truetype");
+  font-weight: lighter;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+ul {
+  list-style: none;
+}
+button {
+  border: none;
+  cursor: none;
+  outline: none;
+  background-color: transparent;
+}
+
+:root {
+  --color-orange: #ff6b08;
+  --color-orange-light: #fc7d28;
+  --color-orange-dark: #bb4b01;
+  --color-orange-1: #ff944c;
+  --color-orange-t: #ff6b0888;
+  --color-green: #0d6b5b;
+  --color-green-light: #42bba7;
+  --color-green-dark: #024439;
+  --color-green-t: #0d6b5b3c;
+  --color-green-1: #4b9286;
+  --color-white-f: #ffffff;
+  --color-white-1: #f2f2f2;
+  --color-white-2: #e8e8e8;
+  --color-white-3: #d1d1d1;
+  --color-white-t: #ffffffad;
+
+  --font-inter-black: "inter-black";
+  --font-inter-bold: "inter-bold";
+  --font-inter-bolder: "inter-bolder";
+  --font-inter-lighter: "inter-light";
+
+  --font-roboto-black: "roboto-black";
+  --font-roboto-bold: "roboto-bold";
+  --font-roboto-bolder: "roboto-bolder";
+  --font-roboto-medium: "roboto-medium";
+  --font-roboto-lighter: "roboto-light";
+
+  --danger: #ef1f1f;
+}
+
+.text-danger {
+  color: var(--danger);
+}
+.background-danger {
+  background-color: var(--danger);
+}
+
+.form-control {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: var(--color-white-2);
+  font-size: 16px;
+  color: var(--color-green-dark);
+  font-family: var(--font-roboto-bold);
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.line-h {
+  display: inline;
+  width: 115%;
+  height: 2px;
+  background-color: var(--color-green-t);
+  margin: 16px 0;
+  margin-right: -18px;
+}
+
+.line-h.line-last {
+  margin-top: 0;
+}
+
+.form-group,
+.form-control {
+  width: 100%;
+}
+

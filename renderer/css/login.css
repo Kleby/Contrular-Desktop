@@ -1,0 +1,79 @@
+.login-brand {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.main-title {
+  color: var(--color-white-2);
+  font-size: 32px;
+  font-family: var(--font-inter-bolder);
+  text-shadow: 2px 4px 9px black;
+  text-align: left;
+  width: 50%;
+}
+
+.brand-image {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.form-label {
+  font-size: 18px;
+  color: var(--color-white-2);
+  margin-bottom: 4px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.login-actions__container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.btn.btn-success,
+.btn.btn-info {
+    width: 100%;
+    font-family: var(--font-inter-black);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 400ms;
+}
+
+.btn.btn-success{
+    color: var(--color-white-f);
+    background-color: var(--color-orange-light);
+    margin-right: 8px;
+}
+
+.btn.btn-success:hover{
+    background-color: var(--color-orange-dark);
+    color: var(--color-white-2);
+    box-shadow: 0 0 8px var(--color-orange);
+}
+
+.btn.btn-info{
+    margin-left: 8px;
+    color: var(--color-orange);
+    background-color: var(--color-white-f);
+}
+
+.btn.btn-info:hover{
+    background-color: var(--color-white-t);
+    box-shadow: 0 0 8px var(--color-white-2);
+}
+
+.btn-descripion{
+    /* width: 100%; */
+    margin-right: 4px;
+}
+
+.main-content{
+    box-shadow:0 0 8px var(--color-green-dark), 0 0 8px 2px var(--color-white-t) inset
+}
