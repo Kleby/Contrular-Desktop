@@ -1,6 +1,5 @@
 const { sql, dbConfig } = require( './connection.js');
 
-
 let pool;
 
 async function getPool() {
