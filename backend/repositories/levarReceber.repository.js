@@ -1,17 +1,23 @@
 const {getPool} = require("../db/pool.js");
 const { sql } = require("../db/connection.js");
 
-async function listarLevarEReceber(){
+async function listarLevarEReceber(orderBy="CRD.CRD_ATRASO", direction="DESC"){
     try {
-        const pool = await getPool(orderBy="CRD.CRD_ATRASO", direction="DESC");
+        const pool = await getPool();
         const query = `
             SELECT 
                 V.VEN_CODIGO AS VENDA,
                 FORMAT(V.VEN_EMISSAO, 'dd/MM/yy') AS EMISSAO,
                 FORMAT(CRD.CRD_VENCIMENTO_AT, 'dd/MM/yy') AS VENCIMENTO,
                 V.VEN_TOTAL AS TOTAL,
-                V.VEN_CLIENTE,
-                C.CLI_NOME,
+                C.CLI_NOME AS CLIENTE,
+                C.CLI_CODIGO,
+                C.CLI_ENDERECO,
+                C.CLI_BAIRRO,
+                C.CLI_CIDADE,
+                C.CLI_CELULAR,
+                C.CLI_OBS, 
+                C.CLI_CADASTRO,
                 F.FUN_NOME,
                 F.FUN_LOGIN,
                 V.VEN_FUNCIONARIO
@@ -43,11 +49,17 @@ async function listarLevarEReceberStream(orderBy="CRD.CRD_ATRASO", direction="DE
             FORMAT(V.VEN_EMISSAO, 'dd/MM/yy') AS EMISSAO,
             FORMAT(CRD.CRD_VENCIMENTO_AT, 'dd/MM/yy') AS VENCIMENTO,
             V.VEN_TOTAL AS TOTAL,
-            V.VEN_CLIENTE,
-            C.CLI_NOME,
-            F.FUN_NOME,
-            F.FUN_LOGIN,
-            V.VEN_FUNCIONARIO
+                C.CLI_NOME AS CLIENTE,
+                C.CLI_CODIGO,
+                C.CLI_ENDERECO,
+                C.CLI_BAIRRO,
+                C.CLI_CIDADE,
+                C.CLI_CELULAR,
+                C.CLI_OBS, 
+                C.CLI_CADASTRO,
+                F.FUN_NOME,
+                F.FUN_LOGIN,
+                V.VEN_FUNCIONARIO
         FROM VENDAS AS V
         INNER JOIN CONTAS_RECEBER_DADOS AS CRD ON CRD.CRD_CODIGO = V.VEN_CODIGO
         INNER JOIN CLIENTES C ON C.CLI_CODIGO = V.VEN_CLIENTE 
@@ -78,7 +90,14 @@ async function  levarEReceberPorVendedor(vendedorLogin, orderBy="CRD.CRD_ATRASO"
                 FORMAT(V.VEN_EMISSAO, 'dd/MM/yy') AS EMISSAO,
                 FORMAT(CRD.CRD_VENCIMENTO_AT, 'dd/MM/yy') AS VENCIMENTO,
                 V.VEN_TOTAL AS TOTAL,
-                CONCAT(V.VEN_CLIENTE,'  :.  ',C.CLI_NOME) AS CLIENTE ,
+                C.CLI_NOME AS CLIENTE,
+                C.CLI_CODIGO,
+                C.CLI_ENDERECO,
+                C.CLI_BAIRRO,
+                C.CLI_CIDADE,
+                C.CLI_CELULAR,
+                C.CLI_OBS, 
+                C.CLI_CADASTRO,
                 F.FUN_NOME,
                 F.FUN_LOGIN,
                 V.VEN_FUNCIONARIO
