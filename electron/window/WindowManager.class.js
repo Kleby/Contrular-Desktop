@@ -15,6 +15,9 @@ module.exports = class WindowManager extends EventEmitter {
         return win;
       }
     }
+    console.log("Creating window with key:", key);
+    console.log(win);
+    
 
     const win = factory();
     this.windows.set(key, win);
@@ -25,7 +28,7 @@ module.exports = class WindowManager extends EventEmitter {
       this.emit("window:focused", key);
     });
 
-    win.on('blur', ()=>{
+    newWindow.in('blur', ()=>{
         this.emit("window:blurred", key);
     })
 

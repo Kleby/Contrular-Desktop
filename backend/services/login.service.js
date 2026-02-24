@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const UsuarioRepository = require("../repositories/login.repository.js");
-class UsuarioService {
+class LoginService {
     constructor(){
         this.usuarioRepository = new UsuarioRepository();
     }
@@ -20,37 +20,35 @@ class UsuarioService {
                 "message": "Senha é obrigatória"
             }
         }
-        const result = await this.usuarioRepository.login({usuario, senha});        
-        return result;
+
+        let user = await this.usuarioRepository.obterUsuarioLocal(usuario, senha); 
+        if(!user){
+            user = await this.usuarioRepository.obterUsuarioNoRemoto(usuario);
+            if(user){
+                await this.usuarioRepository.cadastrarUsuario({usuario, senha});
+            }
+        }       
+        if(!user){
+            console.error("Usuário ou senha inválidos");
+            return {
+                "success": false,
+                "message": "Usuário ou senha inválidos",
+                "user": usuario
+            }
+        }
+        await this.usuarioRepository.inserirDadosUsuario(user.id);
+        return {
+            "success": true,
+            "user": {
+                "usuario": usuario,
+            }
+        }
     }
 } 
 
 async function test() {
-  const UsuarioService = require("./login.service");
-  const usuarioService = new UsuarioService();  
-  return await usuarioService.login({usuario: "JOAO", senha: "1"})
+  const LoginService = require("./login.service");
+  const loginService = new LoginService();  
+  return await loginService.login({usuario: "JOAO", senha: "1"})
 }
-
-
-test().then(data => {
-    if(data.success){
-        console.log("ok");
-        
-    }
-})
-
-async function sign({username, password}){
-    console.log(username, password);
-    const existsUser = await getFuncionarioByUsername(username);
-    if(!existsUser){
-        return existsUser
-    }
-    const isEqual = bcrypt.compare(password, existsUser.senha_hash);
-    return isEqual && existsUser;
-}
-
-module.exports = UsuarioService
-
-// module.exports = {
-//     sign
-// }
+module.exports = LoginService;

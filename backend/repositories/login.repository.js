@@ -4,7 +4,7 @@ const { sql } = require("../db/connection.js");
 const bcrypt = require("bcryptjs");
 
 class UsuarioRepository {
-  async buscarUsuarioPorLogin({ usuario, senha }) {
+  async buscarUsuarioPorLogin(usuario) {
     const db = await SQLiteConn.getConnetion();
     try {
       const usuarioDB = await db.get(
@@ -44,78 +44,51 @@ class UsuarioRepository {
     }
   }
 
-  async login({ usuario, senha }) {
-    const dbLocal = await SQLiteConn.getConnetion();
-    let userRemote = null;
-    const senhaHash = await bcrypt
-      .hash(senha, 10)
-      .then((hash) => hash)
-      .catch((e) => console.error("Nao foi possivel encryptografar a senha!"));
-
-    const isSenhaCompare = await bcrypt.compare(senha, senhaHash)
-      .then(result => result ? 1 : 0);            
-    let userLocal = await dbLocal.get(
-      "SELECT * FROM usuarios WHERE 1=1 AND (usuario = ?) AND (1 = ?)",
-      [usuario, isSenhaCompare],
-    );
-    if (!userLocal) {
-      userRemote = await this.obterUsuarioNoRemoto(usuario);
-      if (!userRemote) {
-        console.error("Usuario não encontrado no servidor Principal");
-        return {
-          success: false,
-          message: "Usuário não encontrado no servidor Principal",
-          user: usuario,
-        };
-      }
-
-      await dbLocal.run(
-        "INSERT INTO usuarios(nome, usuario, senha_hash)  VALUES(?,?,?)",
-        [userRemote["FUN_NOME"], userRemote["FUN_LOGIN"], senhaHash],
+  async cadastrarUsuario({ usuario, senha }) {
+    const db = await SQLiteConn.getConnetion();
+    const senhaHash = await bcrypt.hash(senha, 10);
+    try {
+      await db.run(
+        "INSERT INTO usuarios(nome, usuario, senha_hash) VALUES(?,?,?)",
+        [usuario, usuario, senhaHash],
       );
-      console.log({
-        success: "ok",
-        message: "Usuario criado no banco de dados local",
-      });
-      userLocal = await { ...userRemote };
-    }
-
-    await this.inserirDadosUsuario(userLocal["id"], dbLocal);
-    
-    {
-      return {
-        success: "ok",
-        user: {
-          usuario: usuario,
-          nome: userLocal["nome"],
-        },
-      };
+      return { success: true };
+    } catch (err) {
+      console.error("Erro ao cadastrar usuário:", err);
+      return { success: false, message: "Erro ao cadastrar usuário" };
     }
   }
 
-  async obterUsuarioNoRemoto(fun_login) {
+    async obterUsuarioNoRemoto(fun_login) {
     const pool = await getPool();
     const query = `
-    SELECT 
-    FUN_CODIGO,
-    FUN_LOGIN,
-    FUN_NOME,
-    FUN_NIVEL,
-    FUN_LOJA,
-    FUN_PROFISSAO
-    FROM FUNCIONARIOS
-    WHERE FUN_LOGIN = @login
-    AND FUN_STATUS = 'A' 
-    `;
+    SELECT  FUN_CODIGO, FUN_LOGIN, FUN_NOME, FUN_NIVEL, FUN_LOJA, FUN_PROFISSAO
+      FROM FUNCIONARIOS
+      WHERE FUN_LOGIN = @login
+        AND FUN_STATUS = 'A' `;
     const [userRemote] = [
       await pool.request().input("login", sql.VarChar, fun_login).query(query),
     ][0].recordset;
-    // await pool.close();
     return userRemote;
   }
 
-  async inserirDadosUsuario(idUsuario, db) {
-    // const db = await SQLiteConn.getConnetion();    
+  async obterUsuarioLocal(usuario, senha) {
+    const db = await SQLiteConn.getConnetion();
+    const userLocal = await db.get(
+      "SELECT * FROM usuarios WHERE 1=1 AND (usuario = ?)",
+      [usuario],
+    );
+    if(!userLocal){
+      return null;
+    }
+    const isCompareSenha = await bcrypt.compare(senha, userLocal.senha_hash).then((res) => res);
+    if (isCompareSenha) {
+      return userLocal;
+    }
+    return null;
+  }
+  async inserirDadosUsuario(idUsuario) {
+    const db = await SQLiteConn.getConnetion();    
     await db.run(
       ` INSERT INTO usuarios_dados(id_usuario) VALUES(?);`,
       [idUsuario],

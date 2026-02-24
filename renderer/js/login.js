@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
     });
 
-    function getCredentials(){
+    async function getCredentials(){
         const usuario = inUsername.value;
         const senha = inPassword.value;
         return {usuario, senha};
@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
     btnSign.addEventListener("click", async ()=>{
         const result = getCredentials();
         const response = await window.app.login(result);
+        console.log(response);
+        return response;
     });
 
 

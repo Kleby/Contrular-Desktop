@@ -1,5 +1,6 @@
 const { app } = require("electron");
-
+const path = require("node:path");
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 const { healthCheck } = require("../backend/db/healthCheck.js");
 const WindowManager = require("../electron/window/WindowManager.class.js");
 const CreateWindow = require("../electron/window/CreateWindow.class.js");
@@ -9,7 +10,7 @@ let win;
 const windowManager = new WindowManager();
 const windowFactories = {
   login: ()=> CreateWindow.create(640, 480, "Página de Login", "login.html"),
-  dashboard: ()=>  CreateWindow.create(640, 480, "Página de Login", "dashboard.html")
+  dashboard: ()=>  CreateWindow.create(1200, 800, "Página de Dashboard", "dashboard.html")
 }
 
 async function handleOnWindow() {
@@ -19,7 +20,7 @@ async function handleOnWindow() {
     app.quit();
     return;
   }
-  win = windowFactories.login
+  win = windowFactories.login();
   registerIpc({windowKey: "login", win, windowManager});
   windowManager.create("login", win)
   handleAppEvents();
